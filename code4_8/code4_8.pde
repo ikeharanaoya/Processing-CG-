@@ -4,7 +4,7 @@ void setup(){
 }
 void draw() {
   background(255);
-  for (int j = 0; i < 20; j++){
+  for (int j = 0; j < 20; j++){
     float y = mouseY + 10 * j;
     for (int i = 0; i < 20; i++){
       float x = mouseX + 10 * i;
