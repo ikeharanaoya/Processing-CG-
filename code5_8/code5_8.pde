@@ -51,7 +51,17 @@ void accelerateBall(){
   dy += gravity; //下向きに加速する
 }
 void drawBall(){ //MVCのViewの処理
+  fill(70); //ボールの色を暗い灰色に設定
   ellipse(centerX, centerY, diameter, diameter);
+  drawHightLight(); //ボールに映り込む擬似的なハイライトを描画
+}
+void drawHightLight() {
+  fill(255); //白に設定
+  float hlCenterX = centerX;
+  float hlCenterY = centerY - radius / 1.4;
+  float hlXSize = radius / 2.5;
+  float hlYSize = hlXSize / 1.3;
+  ellipse(hlCenterX, hlCenterY, hlXSize, hlYSize);
 }
 void mouseDragged(){
   centerX = pmouseX; //ボールの位置は1つ前のフレームのカーソルの位置
