@@ -8,17 +8,13 @@ void setup() {
 void draw() {
   background(0);
   noStroke();
-  //モザイクの粒度をマウスのx座標で決定
-  int skip = mouseX + 1;
-  //画面の幅と高さでループ
-  for (int j = 0; j < height; j = j + skip){
-    for (int i = 0; i < width; i = i + skip){
-      //座標を指定して色を取得
-      color c = img.get(i, j);
-      //取得した色を塗りの色に
-      fill(c);
-      //四角形を描画
-      rect(i, j, skip, skip);
-    }
+  //画面の幅だけループ
+  for (int i = 0; i < width; i++){
+    //現在のマウスのy座標の色を取得
+    color c = img.get(i, mouseY);
+    //取得した色を塗りの色に
+    fill(c);
+    //画面の高さいっぱいに幅１ピクセルの長方形を描画
+    rect(i, 0, 1, height);
   }
 }
