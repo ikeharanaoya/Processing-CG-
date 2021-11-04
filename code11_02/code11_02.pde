@@ -6,6 +6,13 @@ void setup() {
 }
 
 void draw() {
-  //画面に画像データを表示
-  image(img, 0, 0);
+  background(0);
+  //色補正をリセット
+  noTint();
+  //もと画像を左に表示
+  image(img, 0, height / 4, width / 2, height / 2);
+  //画像の明度をマウスのy座標で変更
+  tint(mouseY / float(height) * 255);
+  //色を変更した画像を表示
+  image(img, width / 2, height / 4, width / 2, height / 2);
 }
