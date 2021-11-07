@@ -1,49 +1,15 @@
-float rx = 0.0; //x軸回りの回転角度
-float ry = 0.0; //y軸回りの回転角度
-float rz = 0.0; //z軸回りの回転角度
-
 void setup(){
   size(300, 300, P3D); //3Dモード
   frameRate(60);
 }
 
 void draw(){
-  //画面をリフレッシュ
-  background(204);
+  background(0);
+  translate(0, height/2, -height/4); //原点を移動
+  fill(128);
+  box(60, 80, 60);
   
-  //原点を画面中心に移動
-  translate(width/2, height/2, 0);
-  
-  //回転
-  rotateX(rx); //x軸回り
-  rotateY(ry); //y軸回り
-  rotateZ(rz); //z軸回り
-  
-  //画面の中心に四角形を描画
-  rect(-50, -50, 100, 100);
-}
-
-void keyPressed(){
-  switch(keyCode){
-    case UP:
-    rx = rx - 0.1; //x軸回りの回転角度（時計回り）
-    break;
-    
-    case DOWN:
-    rx = rx + 0.1; //x軸回りの回転角度（反時計回り）
-    break;
-    
-    case LEFT:
-    ry = ry - 0.1; //x軸回りの回転角度（時計回り）
-    break;
-    
-    case RIGHT:
-    ry = ry + 0.1; //x軸回りの回転角度（反時計回り）
-    
-    break;
-  }
-}
-
-void mouseDragged(){
-  rz = mouseX * 0.01; //z軸回りの回転角度
+  translate(width, 0, -height/2); //原点をさらに移動
+  fill(255);
+  box(60, 80, 60); //描画するボックスの大きさは上記と同じ
 }
