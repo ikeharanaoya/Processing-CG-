@@ -10,7 +10,6 @@ function setup() {
   bgColor = color(63);
 }
 
-
 function draw() {
   //背景色
   background(bgColor);
