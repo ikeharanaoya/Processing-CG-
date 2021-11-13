@@ -15,6 +15,9 @@ PImage blkTexWhite, ballTex;
 //現在のステージ
 int nowStage = 0;
 
+//スピード
+int SPEED = 5;
+
 void setup() {
   size(1280, 720);
 
@@ -98,6 +101,7 @@ void deleteBlock(int n) {
   if (blks.get(n).col == LGREEN ||
     blks.get(n).col == GREEN) {
     //破壊
+    SPEED++;
     if (blks.get(n).HP == 1) {
       blks.remove(n);
     } else if (blks.get(n).HP == 2) {
@@ -142,7 +146,7 @@ void update() {
    ・Ｙ軸方向に関して衝突判定を行う。
    ・衝突していた場合、衝突処理し、位置を戻す。
    //////////////////////////////////*/
-  int speed = 5;
+  int speed = SPEED;
   for (int i = 0; i < speed; i++) {
     ball.moveX(); 
     IntersectX();
@@ -173,6 +177,7 @@ void draw() {
     if (nowStage >= 2)
       nowStage = 0;
     createStageBlocks(nowStage);
+    SPEED =5;
   }
 }
 
