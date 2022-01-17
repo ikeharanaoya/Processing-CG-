@@ -3,10 +3,21 @@ import processing.video.*;
 
 // カメラ入力映像を扱うビデオデータ用の変数videoをCapture型として設定する
 Capture video;
+// レイヤーの面をPGraghics型の変数として設定する。
+PGraphics pg;
 // 色のデータを格納するカラー変数を設定する
 color trackColor;
 // 認識する色の上限の変数を設定する
 float threshold;
+// 動きのある範囲の中心座標を格納する変数を設定する
+float motionX = 0;
+float motionY = 0;
+// 中心座標の敏感な動きを抑えた座標を格納する変数を設定する
+float lerpX = 0;
+float lerpY = 0;
+// 1つ前のフレームのトラッキング円の座標を格納する変数を設定する
+float preLerpX = 0;
+float preLerpY = 0;
 
 void setup() {
   size(640, 360);
@@ -20,6 +31,9 @@ void setup() {
   video.start();
   // トラッキング（追跡する）対象の色としてRGBの赤を初期設定にする
   trackColor = color(255, 0, 0);
+
+  // PGraphics変数pg(640, 340)のサイズの画像データ用のバッファとする。
+  pg = createGraphics(640, 340);
 }
 
 // videoに入力される映像を読み出す。
@@ -80,15 +94,34 @@ void draw() {
 
   if (count > 0) { 
     //１フレームの画面内の白ピクセルのx,y座標を個数で除算して平均を出す。
-    //それをavgX,avgYに入れてトラッキングする円の座標として使う。
-    avgX = avgX / count;
-    avgY = avgY / count;
-    //円の描画。
-    fill(255);
-    strokeWeight(2.0);
-    stroke(0);
-    ellipse(avgX, avgY, 24, 24);
+    //それをmotionX,motionYに入れてトラッキングする円の座標として使う。
+    motionX = avgX / count;
+    motionY = avgY / count;
   }
+  // 敏感なトラッキングの円の動きを抑える。
+  lerpX = lerp(lerpX, motionX, 0.1);
+  lerpY = lerp(lerpY, motionY, 0.1);
+  
+  //円の描画。
+  fill(255);
+  strokeWeight(2.0);
+  stroke(0);
+  ellipse(avgX, avgY, 24, 24);
+  
+  // レイヤー画面pgの描画処理を開始する
+  pg.beginDraw();
+  pg.stroke(255, 0, 0, 80);
+  pg.strokeWeight(10.0);
+  // 1フレーム前の座標と現在の座標を結ぶline
+  pg.line(preLerpX, preLerpY, lerpX, lerpY);// pg上に点を描画
+  pg.endDraw();// 描画の終了
+  
+  // レイヤーpgを画面表示する。
+  image(pg, 0, 0);
+  
+  // 現在の座標がpreLerpX, preLerpYに入れられ、次のフレームの処理で１つ前のフレームの座標となる。
+  preLerpX = lerpX;
+  preLerpY = lerpY;
 }
 
 void mousePressed() {
